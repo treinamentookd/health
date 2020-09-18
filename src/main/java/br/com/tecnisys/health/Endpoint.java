@@ -1,6 +1,5 @@
 package br.com.tecnisys.health;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,13 +10,14 @@ import java.time.LocalDateTime;
 @RestController("/")
 public class Endpoint {
 
-    private final String URL = "https://raw.githubusercontent.com/treinamentookd/teste/master/index.json";
+    private final String URL_LIVENESS = "https://raw.githubusercontent.com/treinamentookd/teste/master/liveness.json";
+    private final String URL_READINESS = "https://raw.githubusercontent.com/treinamentookd/teste/master/readiness.json";
 
 
     @GetMapping("/readiness")
     public String readiness() throws Exception{
         System.out.println("*****************"+ LocalDateTime.now()+" -Readiness invocado... ");
-        if (getSaudavel()){
+        if (getSaudavel(URL_READINESS)){
             return "ok";
         }else{
             throw new Exception("erro");
@@ -25,9 +25,9 @@ public class Endpoint {
 
     }
 
-    private boolean getSaudavel() {
+    private boolean getSaudavel(String url) {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(URL   ,String.class);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url   ,String.class);
         String body = responseEntity.getBody();
         return body.contains("true");
     }
@@ -36,7 +36,7 @@ public class Endpoint {
     @GetMapping("/liveness")
     public String liveness() throws Exception{
         System.out.println("*****************"+ LocalDateTime.now()+" -Liveness invocado... ");
-        if (getSaudavel()){
+        if (getSaudavel(URL_LIVENESS)){
             return "ok";
         }else{
             throw new Exception("erro");
