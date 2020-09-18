@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.logging.Logger;
 
 @RestController("/")
 public class Endpoint {
@@ -16,7 +17,7 @@ public class Endpoint {
 
     @GetMapping("/readiness")
     public String readiness() throws Exception{
-        System.out.println("*****************"+ LocalDateTime.now()+" -Readiness invocado... ");
+        Logger.getLogger(Endpoint.class.getName()).info("*****************"+ LocalDateTime.now()+" -Readiness invocado... ");
         if (getSaudavel(URL_READINESS)){
             return "ok";
         }else{
@@ -35,7 +36,7 @@ public class Endpoint {
 
     @GetMapping("/liveness")
     public String liveness() throws Exception{
-        System.out.println("*****************"+ LocalDateTime.now()+" -Liveness invocado... ");
+        Logger.getLogger(Endpoint.class.getName()).info("*****************"+ LocalDateTime.now()+" -Liveness invocado... ");
         if (getSaudavel(URL_LIVENESS)){
             return "ok";
         }else{
