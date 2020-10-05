@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalField;
 import java.util.logging.Logger;
 import java.util.stream.Stream;
 
@@ -31,7 +34,7 @@ public class Endpoint {
 
     private Retorno getSaudavel(String url) throws Exception {
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url + "?date="+LocalDateTime.now().toInstant(ZoneOffset.UTC).toEpochMilli(), String.class);
         String body = responseEntity.getBody();
         ObjectMapper mapper = new ObjectMapper();
 
