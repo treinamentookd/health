@@ -19,8 +19,9 @@ public class Endpoint {
 
     @GetMapping("/readiness")
     public String readiness() throws Exception{
-        Logger.getLogger(Endpoint.class.getName()).info("*****************"+ LocalDateTime.now()+" -Readiness invocado... ");
-        if (getSaudavel(URL_READINESS).getSaudavel()){
+        boolean valor = getSaudavel(URL_READINESS).getSaudavel();
+        Logger.getLogger(Endpoint.class.getName()).info("*****************"+ LocalDateTime.now()+" -Readiness invocado... " + valor);
+        if (valor){
             return "ok";
         }else{
             throw new Exception("erro");
@@ -40,8 +41,9 @@ public class Endpoint {
 
     @GetMapping("/liveness")
     public String liveness() throws Exception{
-        Logger.getLogger(Endpoint.class.getName()).info("*****************"+ LocalDateTime.now()+" -Liveness invocado... ");
-        if (getSaudavel(URL_LIVENESS).getSaudavel()){
+        boolean valor = getSaudavel(URL_LIVENESS).getSaudavel();
+        Logger.getLogger(Endpoint.class.getName()).info("*****************"+ LocalDateTime.now()+" -Liveness invocado... "+valor);
+        if (valor){
             return "ok";
         }else{
             throw new Exception("erro");
